@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvondis Smart Chat - AI for Everyone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #48bb78;
+            --danger: #f56565;
+            --dark: #2d3748;
+            --light: #f7fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 15px 30px;
+            font-weight: 700;
+        }
+
+        .btn-white:hover {
+            background: var(--light);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .skill-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-box p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .price-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .price-card.featured {
+            border: 3px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .price-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #999;
+        }
+
+        .price-features {
+            text-align: left;
+            margin: 2rem 0;
+            color: #666;
+        }
+
+        .price-features li {
+            list-style: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-features li::before {
+            content: '✓ ';
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Download Section */
+        .download {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            background: white;
+            color: var(--primary);
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 4rem 2rem;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 15px;
+            margin: 6rem 2rem;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a202c;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 2rem;
+            text-align: center;
+            color: #aaa;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">🤖 Jarvondis</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#download">Download</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="/chat.html" class="btn btn-secondary">Sign In</a>
+                <a href="/chat.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🧠 Your Personal AI Assistant</h1>
+            <p>Jarvondis: Safety-first, adaptive AI that learns your needs and grows with you</p>
+            <div class="hero-buttons">
+                <a href="/chat.html" class="btn btn-white">Start Chatting</a>
+                <a href="#download" class="btn btn-primary">Download App</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Jarvondis?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Safety First</h3>
+                    <p>Multi-layer security, content filtering, and child-safe interactions. Your safety is our priority.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Adaptive Learning</h3>
+                    <p>Jarvondis learns your preferences, interests, and communication style. Gets better with every interaction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Skills System</h3>
+                    <p>Unlock advanced skills as you progress. From basics to advanced AI capabilities tailored to you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">♿</div>
+                    <h3>Accessible</h3>
+                    <p>Fully accessible design for screen readers, keyboard navigation, and customizable text sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Track your progress, learning pace, and engagement with beautiful visualizations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-Language</h3>
+                    <p>Coming soon: Support for 50+ languages. Chat in your preferred language.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">Available Skills</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">Start with core skills and unlock advanced capabilities</p>
+            <div class="skills-grid">
+                <div class="skill-box">
+                    <h4>🔍 Web Search</h4>
+                    <p>Find information across the web instantly</p>
+                </div>
+                <div class="skill-box">
+                    <h4>🧮 Calculate</h4>
+                    <p>Solve complex mathematical problems</p>
+                </div>
+                <div class="skill-box">
+                    <h4>📝 Summarize</h4>
+                    <p>Condense large texts into key points</p>
+                </div>
+                <div class="skill-box">
+                    <h4>🔑 Keywords</h4>
+                    <p>Extract important keywords from content</p>
+                </div>
+                <div class="skill-box">
+                    <h4>💻 Code Explain (Unlock)</h4>
+                    <p>Understand code functionality in depth</p>
+                </div>
+                <div class="skill-box">
+                    <h4>💡 Brainstorm (Unlock)</h4>
+                    <p>Generate creative ideas for your projects</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Free</h3>
+                    <div class="price">$0 <span>/ forever</span></div>
+                    <ul class="price-features">
+                        <li>Core skills (search, calculate)</li>
+                        <li>1,000 interactions/month</li>
+                        <li>Basic analytics</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="/chat.html" class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Get Started</a>
+                </div>
+                <div class="price-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$9.99 <span>/ month</span></div>
+                    <ul class="price-features">
+                        <li>All core skills</li>
+                        <li>Unlimited interactions</li>
+                        <li>Advanced analytics</li>
+                        <li>Unlock all skills</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="/chat.html" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Start Free Trial</a>
+                </div>
+                <div class="price-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <ul class="price-features">
+                        <li>Everything in Pro</li>
+                        <li>API access</li>
+                        <li>Custom integrations</li>
+                        <li>Dedicated support</li>
+                        <li>SLA guarantee</li>
+                    </ul>
+                    <a href="mailto:contact@jarvondis.com" class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2>Download Jarvondis</h2>
+            <p>Available on web, iOS, and Android</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn">
+                    <span style="font-size: 1.5rem;">🌐</span>
+                    <div>
+                        <strong>Web App</strong>
+                        <small>Start Now</small>
+                    </div>
+                </a>
+                <a href="#" class="download-btn">
+                    <span style="font-size: 1.5rem;">🍎</span>
+                    <div>
+                        <strong>App Store</strong>
+                        <small>iOS App</small>
+                    </div>
+                </a>
+                <a href="#" class="download-btn">
+                    <span style="font-size: 1.5rem;">📱</span>
+                    <div>
+                        <strong>Google Play</strong>
+                        <small>Android App</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Users Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Jarvondis is the most intuitive AI assistant I've used. It actually learns what I need!"</p>
+                    <p class="testimonial-author">— Sarah M., Student</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Finally an AI that cares about safety. Perfect for my kids to use with confidence."</p>
+                    <p class="testimonial-author">— James K., Parent</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The skill system is amazing. Feels like I'm actually progressing and learning."</p>
+                    <p class="testimonial-author">— Alex T., Professional</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="container">
+        <div class="cta">
+            <h2>Ready to Experience Jarvondis?</h2>
+            <p>Join thousands of users enjoying personalized, safe, adaptive AI</p>
+            <a href="/chat.html" class="btn btn-primary">Start Your Journey Now</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#skills">Skills</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#">Blog</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Security</a>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Jarvondis. Safety-first AI for Everyone. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
